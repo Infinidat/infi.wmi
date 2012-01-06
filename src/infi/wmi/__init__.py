@@ -29,21 +29,22 @@ class WmiObject(object):
     def get_path(self):
         return self._object.Path_.Path
 
-def get_comtypes_client():
+def get_comtypes_client(namespace=r"root\wmi"):
     from . import comtypes as _comtypes
     from comtypes.comtypes import CoGetObject
     from comtypes.comtypes.client import GetModule
     wmi_module = GetModule(['{565783C6-CB41-11D1-8B02-00600806D9B6}', 1 , 2 ])
-    client = CoGetObject(r"winmgmts:root\cimv2", interface=wmi_module.ISWbemServicesEx)
+    client = CoGetObject(r"winmgmts:{}".format(namespace), interface=wmi_module.ISWbemServicesEx)
     return client
 
 class WmiClient(object):
-    def __init__(self):
+    def __init__(self, namespace=r"root\wmi"):
         super(WmiClient, self).__init__()
+        self._namespace = namespace
         self._reload_client()
 
     def _reload_client(self):
-        self._client = get_comtypes_client()
+        self._client = get_comtypes_client(self._namespace)
 
     @classmethod
     def _get_item_by_index(cls, results, index):
