@@ -29,7 +29,7 @@ class WmiObject(object):
     def get_path(self):
         return self._object.Path_.Path
 
-def get_comtypes_client(namespace=r"root\wmi"):
+def get_comtypes_client(namespace=r"root\cimv2"):
     from . import comtypes as _comtypes
     from comtypes.comtypes import CoGetObject
     from comtypes.comtypes.client import GetModule
@@ -38,7 +38,7 @@ def get_comtypes_client(namespace=r"root\wmi"):
     return client
 
 class WmiClient(object):
-    def __init__(self, namespace=r"root\wmi"):
+    def __init__(self, namespace=r"root\cimv2"):
         super(WmiClient, self).__init__()
         self._namespace = namespace
         self._reload_client()
