@@ -3,7 +3,7 @@ from infi import unittest, wmi
 class WmiTestCase(unittest.TestCase):
     def test_query_cimv(self):
         client = wmi.WmiClient()
-        query = client.execute_query("SELECT * FROM Win32_ComputerSystemProduct")
+        query = client.execute_query("SELECT * FROM Win32_LocalTime")
         results = [item for item in query]
         self.assertEqual(len(results), 1)
 
