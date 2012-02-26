@@ -10,7 +10,7 @@ def _add_this_to_sys_path():
 
 def _remove_other_comtypes():
     for comtypes in filter(lambda path: 'comtypes' in path, sys.path):
-        path.remove(comtypes)
+        comtypes.remove(comtypes)
 
 if COMTYPES_MODULE not in sys.path:
     _remove_other_comtypes()
