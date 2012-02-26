@@ -458,7 +458,20 @@ class _(partial, POINTER(VARIANT)):
     # InternetExplorer's Navigate2() method, or Word's Close() method, for
     # examples.
     def from_param(cls, arg):
-        return byref(arg)
+        # accept POINTER(VARIANT) instance
+        if isinstance(arg, POINTER(VARIANT)):
+            return arg
+        # accept byref(VARIANT) instance
+        if isinstance(arg, _carg_obj) and isinstance(arg._obj, VARIANT):
+            return arg
+        # accept VARIANT instance
+        if isinstance(arg, VARIANT):
+            return byref(arg)
+        if isinstance(arg, _CArrayType) and arg._type_ is VARIANT:
+            # accept array of VARIANTs
+            return arg
+        # anything else which can be converted to a VARIANT.
+        return byref(VARIANT(arg))
     from_param = classmethod(from_param)
 
     def __setitem__(self, index, value):
