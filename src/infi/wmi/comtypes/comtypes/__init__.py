@@ -130,9 +130,9 @@ CLSCTX = tagCLSCTX
 _ole32 = oledll.ole32
 _ole32_nohresult = windll.ole32 # use this for functions that don't return a HRESULT
 
-COINIT_MULTITHREADED = 0x0
+COINIT_MULTITHREADED     = 0x0
 COINIT_APARTMENTTHREADED = 0x2
-COINIT_DISABLE_OLE1DDE = 0x4
+COINIT_DISABLE_OLE1DDE   = 0x4
 COINIT_SPEED_OVER_MEMORY = 0x8
 
 def CoInitialize():
