@@ -30,8 +30,8 @@ class WmiObject(object):
         return self._object.Path_.Path
 
 def get_comtypes_client(namespace=r"root\cimv2"):
-    from comtypes.comtypes import CoGetObject
-    from comtypes.comtypes.client import GetModule
+    from comtypes import CoGetObject
+    from comtypes.client import GetModule
     wmi_module = GetModule(['{565783C6-CB41-11D1-8B02-00600806D9B6}', 1 , 2 ])
     client = CoGetObject(r"winmgmts:{}".format(namespace), interface=wmi_module.ISWbemServicesEx)
     return client
