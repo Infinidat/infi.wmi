@@ -1,5 +1,12 @@
 __import__("pkg_resources").declare_namespace(__name__)
 
+import sys
+
+PY2 = sys.version_info[0] == 2
+
+if PY2:
+    range = xrange
+
 class WmiObject(object):
     def __init__(self, com_object):
         self._properties = None
@@ -57,6 +64,5 @@ class WmiClient(object):
             count = results.Count
         except COMError:
             pass
-        for index in xrange(count):
+        for index in range(count):
             yield self._get_item_by_index(results, index)
-
