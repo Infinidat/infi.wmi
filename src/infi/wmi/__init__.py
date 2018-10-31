@@ -26,7 +26,7 @@ class WmiObject(object):
         return self.properties.Item(attr)
 
     def _get_cached_value(self, attr):
-        if not self._values.has_key(attr):
+        if attr not in self._values:
             self._values[attr] = self._get_property(attr).Value
         return self._values[attr]
 
