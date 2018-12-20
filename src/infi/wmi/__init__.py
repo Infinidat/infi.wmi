@@ -26,7 +26,7 @@ class WmiObject(object):
         return self.properties.Item(attr)
 
     def _get_cached_value(self, attr):
-        if not self._values.has_key(attr):
+        if attr not in self._values:
             self._values[attr] = self._get_property(attr).Value
         return self._values[attr]
 
@@ -39,7 +39,7 @@ class WmiObject(object):
 def get_comtypes_client(namespace=r"root\cimv2"):
     from comtypes import CoGetObject
     from comtypes.client import GetModule
-    wmi_module = GetModule(['{565783C6-CB41-11D1-8B02-00600806D9B6}', 1 , 2 ])
+    wmi_module = GetModule(['{565783C6-CB41-11D1-8B02-00600806D9B6}', 1, 2])
     client = CoGetObject(r"winmgmts:{}".format(namespace), interface=wmi_module.ISWbemServicesEx)
     return client
 
@@ -50,6 +50,10 @@ class WmiClient(object):
         self._reload_client()
 
     def _reload_client(self):
+        from comtypes import CoInitializeEx
+        # CoInitialize is per-thread, but comtypes only calls it once on module load. We don't know if it was called
+        # for the current thread so we call it again to make sure:
+        CoInitializeEx()
         self._client = get_comtypes_client(self._namespace)
 
     @classmethod
